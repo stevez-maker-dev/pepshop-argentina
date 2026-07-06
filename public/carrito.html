@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito - PepShop Argentina</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/carrito.js" defer></script>
+  <script src="js/productos.js" defer></script>
+  <script src="js/paginaCarrito.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <h1>PepShop Argentina</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="#">Perros</a></li>
+        <li><a href="#">Gatos</a></li>
+        <li><a href="carrito.html">Carrito <span class="contador-carrito" id="contador-carrito">0</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Tu carrito</h2>
+
+    <div class="carrito-contenedor">
+
+      <ul class="lista-carrito"></ul>
+
+      <aside class="resumen-compra">
+        <h3>Resumen</h3>
+        <div class="resumen-linea">
+          <span>Subtotal</span>
+          <span id="resumen-subtotal">$0</span>
+        </div>
+        <div class="resumen-linea">
+          <span>Envío</span>
+          <span>A calcular</span>
+        </div>
+        <div class="resumen-linea resumen-total">
+          <span>Total</span>
+          <span id="resumen-total">$0</span>
+        </div>
+        <button class="btn-finalizar">Finalizar compra</button>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 PepShop Argentina. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>
