@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
             filtro.especie = req.query.especie;
         }
 
-        const productos = await productos.find(filtro);
+        const productos = await Producto.find(filtro);
         res.json(productos);
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener los productos' });

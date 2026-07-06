@@ -1,11 +1,11 @@
-function crearItemCarrito(item) {
-  const producto = productos.find(p => p.id === item.id);
-  if (!producto) return '';
+async function crearItemCarrito(item) {
+  const respuesta = await fetch(`/api/productos/${item.id}`);
+  const producto = await respuesta.json();
 
   const subtotal = producto.precio * item.cantidad;
 
   return `
-    <li class="carrito-item" data-id="${producto.id}">
+    <li class="carrito-item" data-id="${producto._id}">
       <img src="${producto.imagen}" alt="${producto.nombre}">
       <div class="carrito-item-info">
         <h3>${producto.nombre}</h3>
@@ -13,16 +13,16 @@ function crearItemCarrito(item) {
         <p class="precio-unitario">$${producto.precio.toLocaleString('es-AR')} c/u</p>
       </div>
       <div class="cantidad-selector">
-        <label for="cantidad-${producto.id}">Cantidad:</label>
-        <input type="number" id="cantidad-${producto.id}" class="input-cantidad" data-id="${producto.id}" value="${item.cantidad}" min="1">
+        <label for="cantidad-${producto._id}">Cantidad:</label>
+        <input type="number" id="cantidad-${producto._id}" class="input-cantidad" data-id="${producto._id}" value="${item.cantidad}" min="1">
       </div>
       <p class="subtotal">$${subtotal.toLocaleString('es-AR')}</p>
-      <button class="btn-eliminar" data-id="${producto.id}" aria-label="Eliminar producto del carrito">&times;</button>
+      <button class="btn-eliminar" data-id="${producto._id}" aria-label="Eliminar producto del carrito">&times;</button>
     </li>
   `;
 }
 
-function renderizarPaginaCarrito() {
+async function renderizarPaginaCarrito() {
   const carrito = obtenerCarrito();
   const lista = document.querySelector('.lista-carrito');
   const resumenSubtotal = document.querySelector('#resumen-subtotal');
@@ -35,15 +35,25 @@ function renderizarPaginaCarrito() {
     return;
   }
 
-  lista.innerHTML = carrito.map(crearItemCarrito).join('');
+  try {
+    const itemsHTML = await Promise.all(carrito.map(crearItemCarrito));
+    lista.innerHTML = itemsHTML.join('');
 
-  const total = carrito.reduce((acumulado, item) => {
-    const producto = productos.find(p => p.id === item.id);
-    return acumulado + (producto ? producto.precio * item.cantidad : 0);
-  }, 0);
+    const total = carrito.reduce((acumulado, item, indice) => {
+      const subtotalEl = lista.querySelectorAll('.subtotal')[indice];
+      const valor = subtotalEl
+        ? Number(subtotalEl.textContent.replace(/[^0-9]/g, ''))
+        : 0;
+      return acumulado + valor;
+    }, 0);
 
-  resumenSubtotal.textContent = `$${total.toLocaleString('es-AR')}`;
-  resumenTotal.textContent = `$${total.toLocaleString('es-AR')}`;
+    resumenSubtotal.textContent = `$${total.toLocaleString('es-AR')}`;
+    resumenTotal.textContent = `$${total.toLocaleString('es-AR')}`;
+
+  } catch (error) {
+    lista.innerHTML = '<p class="carrito-vacio">Error al cargar el carrito.</p>';
+    console.error('Error al cargar carrito:', error);
+  }
 }
 
 function eliminarDelCarrito(idProducto) {
@@ -60,24 +70,26 @@ function cambiarCantidad(idProducto, nuevaCantidad) {
   }
 }
 
-document.querySelector('.lista-carrito').addEventListener('click', function(evento) {
-  if (evento.target.classList.contains('btn-eliminar')) {
-    const id = Number(evento.target.dataset.id);
-    eliminarDelCarrito(id);
-    renderizarPaginaCarrito();
-    actualizarContadorCarrito();
-  }
-});
+document.addEventListener('DOMContentLoaded', () => {
+  renderizarPaginaCarrito();
+  actualizarContadorCarrito();
 
-document.querySelector('.lista-carrito').addEventListener('change', function(evento) {
-  if (evento.target.classList.contains('input-cantidad')) {
-    const id = Number(evento.target.dataset.id);
-    const nuevaCantidad = Math.max(1, Number(evento.target.value) || 1);
-    cambiarCantidad(id, nuevaCantidad);
-    renderizarPaginaCarrito();
-    actualizarContadorCarrito();
-  }
-});
+  document.querySelector('.lista-carrito').addEventListener('click', async function(evento) {
+    if (evento.target.classList.contains('btn-eliminar')) {
+      const id = evento.target.dataset.id;
+      eliminarDelCarrito(id);
+      await renderizarPaginaCarrito();
+      actualizarContadorCarrito();
+    }
+  });
 
-renderizarPaginaCarrito();
-actualizarContadorCarrito();
+  document.querySelector('.lista-carrito').addEventListener('change', async function(evento) {
+    if (evento.target.classList.contains('input-cantidad')) {
+      const id = evento.target.dataset.id;
+      const nuevaCantidad = Math.max(1, Number(evento.target.value) || 1);
+      cambiarCantidad(id, nuevaCantidad);
+      await renderizarPaginaCarrito();
+      actualizarContadorCarrito();
+    }
+  });
+});

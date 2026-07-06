@@ -32,5 +32,3 @@ function actualizarContadorCarrito() {
     contador.textContent = contarItemsCarrito();
   }
 }
-
-actualizarContadorCarrito();
