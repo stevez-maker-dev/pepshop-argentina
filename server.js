@@ -1,10 +1,14 @@
-const express = require('express');
-const path = require('path');
-const connectarDB = require('./config/db');
-const rutasProductos = require('./routes/productos');
-const rutasAuth = require('./routes/auth');
-const rutasOrdenes = require('./routes/ordenes');
-const rutasAdmin = require('./routes/admin');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import connectarDB from './config/db.js';
+import rutasProductos from './routes/productos.js';
+import rutasAuth from './routes/auth.js';
+import rutasOrdenes from './routes/ordenes.js';
+import rutasAdmin from './routes/admin.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PUERTO = 3000;

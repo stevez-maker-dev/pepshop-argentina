@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const Usuario = require('../models/Usuario');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import Usuario from '../models/Usuario.js';
 
 async function crearAdmin() {
     try {

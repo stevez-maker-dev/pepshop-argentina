@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-const SECRETO = 'pepshop_secreto_desarrollo';
+export const SECRETO = 'pepshop_secreto_desarrollo';
 
-function verificarToken(req, res, next) {
+export function verificarToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -19,10 +19,8 @@ function verificarToken(req, res, next) {
     }
 }
 
-function soloAdmin(req, res, next) {
+export function soloAdmin(req, res, next) {
     if (req.usuario.rol !== 'admin') {
         return res.status(403).json({ error: 'Acceso denegado: se requiere rol admin' });
     }
 }
-
-module.exports = { verificarToken, soloAdmin, SECRETO };

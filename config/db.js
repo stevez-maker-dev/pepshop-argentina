@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const URL_MONGO = 'mongodb://localhost:27017/pepshop';
 
@@ -12,4 +12,4 @@ async function conectarDB() {
     }
 }
 
-module.exports = conectarDB;
+export default conectarDB;

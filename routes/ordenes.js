@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import Orden from '../models/Orden.js';
+import Producto from '../models/Producto.js';
+import { verificarToken } from '../middleware/auth.js';
+
 const router = express.Router();
-const Orden = require('../models/Orden');
-const Producto = require('../models/Producto');
-const { verificarToken } = require('../middleware/auth');
 
 router.post('/', verificarToken, async (req, res) => {
     try {
@@ -81,4 +82,4 @@ router.get('/mis-ordenes', verificarToken, async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

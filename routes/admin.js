@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import Producto from '../models/Producto.js';
+import Orden from '../models/Orden.js';
+import { verificarToken, soloAdmin } from '../middleware/auth.js';
+
 const router = express.Router();
-const Producto = require('../models/Producto');
-const Orden = require('../models/Orden');
-const { verificarToken, soloAdmin } = require('../middleware/auth');
 
 router.use(verificarToken, soloAdmin);
 
@@ -63,4 +64,4 @@ router.delete('/productos/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
