@@ -1,0 +1,80 @@
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.producto {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.producto:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.producto img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.producto h3 {
+  font-size: 1.05rem;
+  margin: 0.75rem 1rem 0.25rem;
+}
+
+.link-producto {
+  color: inherit;
+  text-decoration: none;
+}
+
+.link-producto:hover h3 {
+  color: var(--color-primary-dark);
+}
+
+.producto .categoria {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin: 0 1rem;
+}
+
+.producto .precio {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--color-primary-dark);
+  margin: 0.5rem 1rem;
+}
+
+.producto button {
+  margin: 0 1rem 1rem;
+  padding: 0.6rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.producto button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.sin-resultados {
+  color: var(--color-text-muted);
+  padding: 2rem 0;
+}
+
+@media (max-width: 480px) {
+  .grid-productos {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+}
