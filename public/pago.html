@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - PepShop Argentina</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/auth.js" defer></script>
+  <script src="js/carrito.js" defer></script>
+  <script src="js/pago.js" defer></script>
+</head>
+<body>
+
+  <header>
+    <h1>PepShop Argentina</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html?especie=Perro">Perros</a></li>
+        <li><a href="index.html?especie=Gato">Gatos</a></li>
+        <li><a href="carrito.html">Carrito <span class="contador-carrito" id="contador-carrito">0</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="pago-contenedor">
+
+      <div class="pago-formulario">
+        <a href="carrito.html" class="volver">&larr; Volver al carrito</a>
+        <h2>Datos de pago</h2>
+
+        <div id="mensaje-pago-error" class="mensaje-error" style="display:none"></div>
+
+        <div class="tarjeta-preview" id="tarjeta-preview">
+          <div class="tarjeta-frente">
+            <div class="tarjeta-chip"></div>
+            <div class="tarjeta-numero" id="preview-numero">•••• •••• •••• ••••</div>
+            <div class="tarjeta-inferior">
+              <div>
+                <div class="tarjeta-label">Titular</div>
+                <div class="tarjeta-titular" id="preview-titular">NOMBRE APELLIDO</div>
+              </div>
+              <div>
+                <div class="tarjeta-label">Vence</div>
+                <div class="tarjeta-vence" id="preview-vence">MM/AA</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grupo">
+          <label for="numero-tarjeta">Número de tarjeta</label>
+          <input type="text" id="numero-tarjeta" placeholder="1234 5678 9012 3456" maxlength="19">
+        </div>
+        <div class="form-grupo">
+          <label for="titular-tarjeta">Nombre del titular</label>
+          <input type="text" id="titular-tarjeta" placeholder="Como figura en la tarjeta">
+        </div>
+        <div class="pago-fila">
+          <div class="form-grupo">
+            <label for="vencimiento">Vencimiento</label>
+            <input type="text" id="vencimiento" placeholder="MM/AA" maxlength="5">
+          </div>
+          <div class="form-grupo">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" placeholder="123" maxlength="3">
+          </div>
+        </div>
+        <button class="btn-form" id="btn-pagar">Confirmar pago</button>
+      </div>
+
+      <aside class="pago-resumen">
+        <h3>Resumen del pedido</h3>
+        <ul class="resumen-items" id="resumen-items"></ul>
+        <div class="resumen-linea resumen-total">
+          <span>Total</span>
+          <span id="resumen-total-pago">$0</span>
+        </div>
+      </aside>
+
+    </div>
+
+    <div class="pago-overlay" id="pago-overlay" style="display:none">
+      <div class="pago-procesando">
+        <div class="spinner"></div>
+        <p id="pago-overlay-texto">Procesando pago...</p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 PepShop Argentina. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>

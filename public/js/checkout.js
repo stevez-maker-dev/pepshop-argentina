@@ -71,6 +71,18 @@ function mostrarConfirmacion(datos) {
 document.addEventListener('DOMContentLoaded', () => {
   const btnFinalizar = document.querySelector('.btn-finalizar');
   if (btnFinalizar) {
-    btnFinalizar.addEventListener('click', finalizarCompra);
+    btnFinalizar.addEventListener('click', () => {
+      const sesion = obtenerSesion();
+      if (!sesion) {
+        window.location.href = 'login.html';
+        return;
+      }
+      const carrito = obtenerCarrito();
+      if (carrito.length === 0) {
+        alert('Tu carrito está vacío');
+        return;
+      }
+      window.location.href = 'pago.html';
+    });
   }
 });
