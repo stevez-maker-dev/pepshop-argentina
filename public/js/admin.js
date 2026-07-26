@@ -72,36 +72,115 @@ function mostrarFormulario(producto = null) {
 }
 
 function ocultarFormulario() {
+  limpiarErroresFormulario();
+  const errorGeneral = document.querySelector('#error-form-admin');
+  if (errorGeneral) errorGeneral.remove();
   document.querySelector('#form-producto').style.display = 'none';
 }
 
+function validarFormularioProducto() {
+  const campos = [
+    { id: 'p-nombre', label: 'Nombre' },
+    { id: 'p-precio', label: 'Precio' },
+    { id: 'p-stock', label: 'Stock' },
+    { id: 'p-descripcion', label: 'Descripción' }
+  ];
+
+  let valido = true;
+
+  campos.forEach(({ id, label }) => {
+    const input = document.querySelector(`#${id}`);
+    const valor = input.value.trim();
+    const grupoAnterior = input.parentElement.querySelector('.campo-error');
+    if (grupoAnterior) grupoAnterior.remove();
+    input.classList.remove('input-error');
+
+    if (!valor) {
+      input.classList.add('input-error');
+      const errorMsg = document.createElement('span');
+      errorMsg.className = 'campo-error';
+      errorMsg.textContent = `${label} es obligatorio`;
+      input.parentElement.appendChild(errorMsg);
+      valido = false;
+    }
+  });
+
+  const precio = Number(document.querySelector('#p-precio').value);
+  const stock = Number(document.querySelector('#p-stock').value);
+
+  if (precio < 0) {
+    const input = document.querySelector('#p-precio');
+    input.classList.add('input-error');
+    const errorMsg = document.createElement('span');
+    errorMsg.className = 'campo-error';
+    errorMsg.textContent = 'El precio no puede ser negativo';
+    input.parentElement.appendChild(errorMsg);
+    valido = false;
+  }
+
+  if (stock < 0) {
+    const input = document.querySelector('#p-stock');
+    input.classList.add('input-error');
+    const errorMsg = document.createElement('span');
+    errorMsg.className = 'campo-error';
+    errorMsg.textContent = 'El stock no puede ser negativo';
+    input.parentElement.appendChild(errorMsg);
+    valido = false;
+  }
+
+  return valido;
+}
+
+function limpiarErroresFormulario() {
+  document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+  document.querySelectorAll('.campo-error').forEach(el => el.remove());
+}
+
 async function guardarProducto() {
+  if (!validarFormularioProducto()) {
+    return;
+  }
+
   const id = document.querySelector('#producto-id').value;
   const datos = {
-    nombre: document.querySelector('#p-nombre').value,
+    nombre: document.querySelector('#p-nombre').value.trim(),
     precio: Number(document.querySelector('#p-precio').value),
     especie: document.querySelector('#p-especie').value,
     categoria: document.querySelector('#p-categoria').value,
     stock: Number(document.querySelector('#p-stock').value),
-    imagen: document.querySelector('#p-imagen').value,
-    descripcion: document.querySelector('#p-descripcion').value
+    imagen: document.querySelector('#p-imagen').value.trim(),
+    descripcion: document.querySelector('#p-descripcion').value.trim()
   };
 
   const url = id ? `/api/admin/productos/${id}` : '/api/admin/productos';
   const method = id ? 'PUT' : 'POST';
 
-  const respuesta = await fetch(url, {
-    method,
-    headers: cabeceras(),
-    body: JSON.stringify(datos)
-  });
+  try {
+    const respuesta = await fetch(url, {
+      method,
+      headers: cabeceras(),
+      body: JSON.stringify(datos)
+    });
 
-  if (respuesta.ok) {
-    ocultarFormulario();
-    cargarProductos();
-  } else {
-    const error = await respuesta.json();
-    alert(error.error);
+    const texto = await respuesta.text();
+
+    if (respuesta.ok) {
+      limpiarErroresFormulario();
+      ocultarFormulario();
+      cargarProductos();
+    } else {
+      const btnGuardar = document.querySelector('#btn-guardar-producto');
+      const errorExistente = document.querySelector('#error-form-admin');
+      if (errorExistente) errorExistente.remove();
+
+      const errorEl = document.createElement('p');
+      errorEl.id = 'error-form-admin';
+      errorEl.className = 'campo-error-general';
+      errorEl.textContent = texto;
+      btnGuardar.parentElement.insertBefore(errorEl, btnGuardar);
+    }
+  } catch (error) {
+    console.error('Error de red al guardar:', error);
   }
 }
 

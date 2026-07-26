@@ -1197,3 +1197,28 @@ footer {
     width: 100%;
   }
 }
+
+/* ===== Validación de formularios ===== */
+.input-error {
+  border-color: #a32d2d !important;
+  background-color: #fff8f8 !important;
+}
+
+.input-error:focus {
+  border-color: #a32d2d !important;
+  outline-color: #a32d2d !important;
+}
+
+.campo-error {
+  color: #a32d2d;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.campo-error-general {
+  color: #a32d2d;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  margin: 0;
+}
