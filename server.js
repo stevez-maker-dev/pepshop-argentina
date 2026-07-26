@@ -6,6 +6,7 @@ import rutasProductos from './routes/productos.js';
 import rutasAuth from './routes/auth.js';
 import rutasOrdenes from './routes/ordenes.js';
 import rutasAdmin from './routes/admin.js';
+import rutasPerfil from './routes/perfil.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/productos', rutasProductos);
 app.use('/api/auth', rutasAuth);
 app.use('/api/ordenes', rutasOrdenes);
+app.use('/api/perfil', rutasPerfil);
 app.use('/api/admin', rutasAdmin);
 
 app.listen(PUERTO, () => {

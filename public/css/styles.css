@@ -995,3 +995,40 @@ footer {
   padding: 3rem 1rem;
   color: var(--color-text-muted);
 }
+
+/* ===== Perfil ===== */
+.perfil-contenedor {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.perfil-seccion {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.perfil-seccion h3 {
+  margin-top: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.25rem;
+}
+
+.perfil-seccion input:disabled {
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.mensaje-exito {
+  background-color: #eaf3de;
+  color: #3b6d11;
+  border: 1px solid #b5d98a;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
