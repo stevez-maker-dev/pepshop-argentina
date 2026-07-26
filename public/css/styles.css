@@ -888,3 +888,28 @@ footer {
   background-color: var(--color-bg) !important;
   text-decoration: none !important;
 }
+
+/* ===== Badge de stock ===== */
+.badge-stock {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.stock-ok {
+  background-color: #eaf3de;
+  color: #3b6d11;
+}
+
+.stock-bajo {
+  background-color: #faeeda;
+  color: #854f0b;
+}
+
+.stock-agotado {
+  background-color: #fcebeb;
+  color: #a32d2d;
+}

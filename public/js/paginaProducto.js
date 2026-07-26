@@ -1,3 +1,22 @@
+function obtenerEstadoStock(stock) {
+  if (stock <= 0) {
+    return {
+      badge: `<span class="badge-stock stock-agotado">Sin stock</span>`,
+      botonDeshabilitado: true
+    };
+  }
+  if (stock <= 10) {
+    return {
+      badge: `<span class="badge-stock stock-bajo">Últimas ${stock} unidades</span>`,
+      botonDeshabilitado: false
+    };
+  }
+  return {
+    badge: `<span class="badge-stock stock-ok">Stock disponible</span>`,
+    botonDeshabilitado: false
+  };
+}
+
 async function renderizarDetalleProducto() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -19,25 +38,32 @@ async function renderizarDetalleProducto() {
     const producto = await respuesta.json();
     document.title = `${producto.nombre} - PepShop Argentina`;
 
+    const estadoStock = obtenerEstadoStock(producto.stock);
+
     contenedor.innerHTML = `
       <img src="${producto.imagen}" alt="${producto.nombre}">
       <div class="detalle-info">
         <p class="categoria">${producto.especie} · ${producto.categoria}</p>
         <h2>${producto.nombre}</h2>
         <p class="precio">$${producto.precio.toLocaleString('es-AR')}</p>
+        ${estadoStock.badge}
         <p class="descripcion">${producto.descripcion}</p>
         <div class="cantidad-selector">
           <label for="cantidad">Cantidad:</label>
-          <input type="number" id="cantidad" name="cantidad" value="1" min="1">
+          <input type="number" id="cantidad" name="cantidad" value="1" min="1" max="${producto.stock}" ${estadoStock.botonDeshabilitado ? 'disabled' : ''}>
         </div>
-        <button class="btn-agregar" data-id="${producto._id}">Agregar al carrito</button>
+        <button class="btn-agregar" data-id="${producto._id}" ${estadoStock.botonDeshabilitado ? 'disabled style="opacity:0.5;cursor:not-allowed"' : ''}>
+          ${estadoStock.botonDeshabilitado ? 'Sin stock' : 'Agregar al carrito'}
+        </button>
       </div>
     `;
 
-    document.querySelector('.btn-agregar').addEventListener('click', function() {
-      const cantidad = Math.max(1, Number(document.querySelector('#cantidad').value) || 1);
-      agregarAlCarrito(producto._id, cantidad);
-    });
+    if (!estadoStock.botonDeshabilitado) {
+      document.querySelector('.btn-agregar').addEventListener('click', function() {
+        const cantidad = Math.max(1, Number(document.querySelector('#cantidad').value) || 1);
+        agregarAlCarrito(producto._id, cantidad);
+      });
+    }
 
   } catch (error) {
     contenedor.innerHTML = '<p class="no-encontrado">Error al cargar el producto. <a href="index.html">Volver al catálogo</a></p>';
