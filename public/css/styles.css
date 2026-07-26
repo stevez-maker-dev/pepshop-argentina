@@ -869,4 +869,22 @@ footer {
   .confirmacion-compra {
     padding: 2rem 1rem;
   }
+
+  .nav-sesion {
+  display: contents;
+  }
+}
+
+/* ===== Menú dinámico ===== */
+.nav-admin {
+  background-color: white;
+  color: var(--color-primary-dark) !important;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.nav-admin:hover {
+  background-color: var(--color-bg) !important;
+  text-decoration: none !important;
 }

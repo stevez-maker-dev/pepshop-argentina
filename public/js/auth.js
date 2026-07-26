@@ -20,18 +20,46 @@ function actualizarMenuUsuario() {
   const nav = document.querySelector('nav ul');
   if (!nav) return;
 
-  const itemSesion = document.createElement('li');
+  const itemsAteriores = nav.querySelectorAll('.nav-sesion');
+  itemsAteriores.forEach(item => item.remove());
 
   if (sesion) {
-    itemSesion.innerHTML = `
+    if (sesion.usuario.rol === 'admin'){
+      const itemAdmin = document.createElement('li');
+      itemAdmin.className = 'nav-sesion';
+      itemAdmin.innerHTML = `<a href="admin.html" class="nav-admin">Panel admin</a>`
+      nav.appendChild(itemAdmin);
+    }
+
+    const itemOrdenes = document.createElement('li');
+    itemOrdenes.className = 'nav-sesion';
+    itemOrdenes.innerHTML = `<a href="mis-ordenes.html">Mis ordenes</a>`;
+    nav.appendChild(itemOrdenes);
+
+    const itemPerfil = document.createElement('li');
+    itemPerfil.className = 'nav-sesion';
+    itemPerfil.innerHTML = `<a href="perfil.html">Mi perfil</a>`;
+    nav.appendChild(itemPerfil);
+
+    const itemUsuario = document.createElement('li');
+    itemUsuario.className = 'nav-sesion';
+    itemUsuario.innerHTML = `
       <span class="nav-usuario">Hola, ${sesion.usuario.nombre.split(' ')[0]}</span>
       <button class="btn-cerrar-sesion" onclick="cerrarSesion()">Salir</button>
     `;
-  } else {
-    itemSesion.innerHTML = `<a href="login.html">Ingresar</a>`;
-  }
+    nav.appendChild(itemUsuario);
 
-  nav.appendChild(itemSesion);
+  } else {
+    const itemRegistro = document.createElement('li');
+    itemRegistro.className = 'nav-sesion';
+    itemRegistro.innerHTML = `<a href="registro.html">Registrarse</a>`;
+    nav.appendChild(itemRegistro);
+
+    const itemLogin = document.createElement('li');
+    itemLogin.className = 'nav-sesion';
+    itemLogin.innerHTML = `<a href="login.html">Ingresar</a>`;
+    nav.appendChild(itemLogin);
+  }
 }
 
 async function manejarRegistro() {
