@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import connectarDB from './config/db.js';
+import ENVIRONMENT from './config/ENVIROMENT.js';
 import rutasProductos from './routes/productos.js';
 import rutasAuth from './routes/auth.js';
 import rutasOrdenes from './routes/ordenes.js';
@@ -12,7 +13,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PUERTO = 3000;
 
 connectarDB();
 
@@ -28,6 +28,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PUERTO, () => {
-  console.log(`Servidor escuchando en http://localhost:${PUERTO}`);
+app.listen(ENVIRONMENT.PORT, () => {
+  console.log(`Servidor escuchando en http://localhost:${ENVIRONMENT.PORT}`);
 });
