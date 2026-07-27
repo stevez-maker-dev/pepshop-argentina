@@ -7,6 +7,9 @@ import Login from './pages/Login.jsx'
 import Registro from './pages/Registro.jsx'
 import Pago from './pages/Pago.jsx'
 import Confirmacion from './pages/Confirmacion.jsx'
+import MisOrdenes from './pages/MisOrdenes.jsx'
+import Perfil from './pages/Perfil.jsx'
+import Admin from './pages/Admin.jsx'
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path="registro" element={<Registro />} />
           <Route path="pago" element={<Pago />} />
           <Route path="confirmacion" element={<Confirmacion />} />
+          <Route path="mis-ordenes" element={<MisOrdenes />} />
+          <Route path="perfil" element={<Perfil />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>
