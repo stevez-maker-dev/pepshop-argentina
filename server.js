@@ -24,6 +24,10 @@ app.use('/api/ordenes', rutasOrdenes);
 app.use('/api/perfil', rutasPerfil);
 app.use('/api/admin', rutasAdmin);
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PUERTO, () => {
   console.log(`Servidor escuchando en http://localhost:${PUERTO}`);
 });
