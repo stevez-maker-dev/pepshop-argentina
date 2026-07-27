@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-
-export const SECRETO = 'pepshop_secreto_desarrollo';
+import ENVIRONMENT from '../config/ENVIROMENT.js';
 
 export function verificarToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -11,7 +10,7 @@ export function verificarToken(req, res, next) {
     }
 
     try {
-        const datos = jwt.verify(token, SECRETO);
+        const datos = jwt.verify(token, ENVIRONMENT.JWT_SECRETO);
         req.usuario = datos;
         next();
     } catch (error) {

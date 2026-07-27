@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
-
-const URL_MONGO = 'mongodb://localhost:27017/pepshop';
+import ENVIRONMENT from './ENVIROMENT.js';
 
 async function conectarDB() {
     try {
-        await mongoose.connect(URL_MONGO);
+        await mongoose.connect(ENVIRONMENT.URL_MONGO);
         console.log('Conectado a MongoDB correctamente');
     } catch (error) {
         console.log('Error al conectar MongoDB', error);
